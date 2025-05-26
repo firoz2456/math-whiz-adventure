@@ -11,7 +11,7 @@ import { Operation } from '../types';
 const PracticeMode = () => {
   const navigate = useNavigate();
   const { currentProblem, generateNewProblem, checkAnswer, rewards, sound } = useAppContext();
-  const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
+  const [selectedNumbers] = useState<number[]>([]);
   const [feedback, setFeedback] = useState<'none' | 'correct' | 'incorrect'>('none');
   const [showReward, setShowReward] = useState(false);
   const [recentReward, setRecentReward] = useState<number | null>(null);

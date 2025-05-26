@@ -9,7 +9,6 @@ type AnswerBoxProps = {
 
 const AnswerBox: React.FC<AnswerBoxProps> = ({ 
   feedback, 
-  answer,
   accentColor = 'purple'
 }) => {
   // Determine color classes based on accent color and feedback

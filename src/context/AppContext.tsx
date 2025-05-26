@@ -11,6 +11,8 @@ interface AppContextType {
   resetStats: () => void;
   sound: boolean;
   toggleSound: () => void;
+  challengeDuration: number;
+  setChallengeDuration: (duration: number) => void;
 }
 
 const defaultStats: GameStats = {
@@ -38,6 +40,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const savedSound = localStorage.getItem('mathWhizSound');
     return savedSound ? JSON.parse(savedSound) : true;
   });
+  const [challengeDuration, setChallengeDuration] = useState<number>(() => {
+    const savedDuration = localStorage.getItem('mathWhizChallengeDuration');
+    return savedDuration ? JSON.parse(savedDuration) : 120; // Default to 2 minutes
+  });
 
   useEffect(() => {
     localStorage.setItem('mathWhizStats', JSON.stringify(stats));
@@ -50,6 +56,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     localStorage.setItem('mathWhizSound', JSON.stringify(sound));
   }, [sound]);
+
+  useEffect(() => {
+    localStorage.setItem('mathWhizChallengeDuration', JSON.stringify(challengeDuration));
+  }, [challengeDuration]);
 
   const generateNewProblem = (operation?: Operation) => {
     setCurrentProblem(generateProblem(operation));
@@ -117,6 +127,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       resetStats,
       sound,
       toggleSound,
+      challengeDuration,
+      setChallengeDuration,
     }}>
       {children}
     </AppContext.Provider>

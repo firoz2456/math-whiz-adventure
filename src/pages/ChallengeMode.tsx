@@ -8,12 +8,10 @@ import { useAppContext } from '../context/AppContext';
 import RewardPopup from '../components/RewardPopup';
 import { Operation } from '../types';
 
-const CHALLENGE_TIME = 120; // 2 minutes in seconds
-
 const ChallengeMode = () => {
   const navigate = useNavigate();
-  const { currentProblem, generateNewProblem, checkAnswer, rewards } = useAppContext();
-  const [timeLeft, setTimeLeft] = useState<number>(CHALLENGE_TIME);
+  const { currentProblem, generateNewProblem, checkAnswer, rewards, challengeDuration, setChallengeDuration } = useAppContext();
+  const [timeLeft, setTimeLeft] = useState<number>(challengeDuration);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [challengeStats, setChallengeStats] = useState({
     correct: 0,
@@ -24,9 +22,12 @@ const ChallengeMode = () => {
   const [recentReward, setRecentReward] = useState<number | null>(null);
   const [showResults, setShowResults] = useState(false);
   const [selectedOperation, setSelectedOperation] = useState<Operation | null>(null);
+  const [selectedDuration, setSelectedDuration] = useState<number>(challengeDuration);
 
   const startChallenge = () => {
     if (!selectedOperation) return;
+    setChallengeDuration(selectedDuration);
+    setTimeLeft(selectedDuration);
     setIsActive(true);
     setChallengeStats({ correct: 0, incorrect: 0 });
     generateNewProblem(selectedOperation);
@@ -127,7 +128,43 @@ const ChallengeMode = () => {
       {!isActive && !showResults ? (
         <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md text-center">
           <h2 className="text-2xl font-bold text-yellow-600 mb-4">Choose Your Challenge!</h2>
-          <p className="mb-6 text-gray-700">What would you like to practice for 10 minutes?</p>
+          <p className="mb-6 text-gray-700">Select your challenge time and operation:</p>
+          
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-gray-700 mb-3">Challenge Duration:</h3>
+            <div className="flex gap-2 justify-center">
+              <button 
+                onClick={() => setSelectedDuration(60)}
+                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                  selectedDuration === 60
+                    ? 'bg-purple-500 text-white'
+                    : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+                }`}
+              >
+                1 min
+              </button>
+              <button 
+                onClick={() => setSelectedDuration(120)}
+                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                  selectedDuration === 120
+                    ? 'bg-purple-500 text-white'
+                    : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+                }`}
+              >
+                2 min
+              </button>
+              <button 
+                onClick={() => setSelectedDuration(300)}
+                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                  selectedDuration === 300
+                    ? 'bg-purple-500 text-white'
+                    : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+                }`}
+              >
+                5 min
+              </button>
+            </div>
+          </div>
           <div className="flex justify-center">
             <Mascot emotion="excited" />
           </div>
@@ -158,7 +195,7 @@ const ChallengeMode = () => {
               onClick={startChallenge}
               className="mt-6 bg-yellow-500 hover:bg-yellow-600 text-white text-xl font-bold py-3 px-6 rounded-xl transition-all w-full"
             >
-              Start 10-Minute Challenge!
+              Start {selectedDuration === 60 ? '1-Minute' : selectedDuration === 120 ? '2-Minute' : '5-Minute'} Challenge!
             </button>
           )}
         </div>
@@ -177,8 +214,9 @@ const ChallengeMode = () => {
             <button 
               onClick={() => {
                 setShowResults(false);
-                setTimeLeft(CHALLENGE_TIME);
+                setTimeLeft(challengeDuration);
                 setSelectedOperation(null);
+                setSelectedDuration(challengeDuration);
               }}
               className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg transition-all"
             >
