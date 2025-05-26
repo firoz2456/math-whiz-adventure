@@ -25,7 +25,7 @@ An interactive educational math game designed specifically for 6-year-olds to ma
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/math-whiz-adventure.git
+git clone https://github.com/firoz2456/math-whiz-adventure.git
 cd math-whiz-adventure
 ```
 
