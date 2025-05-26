@@ -8,7 +8,7 @@ import { useAppContext } from '../context/AppContext';
 import RewardPopup from '../components/RewardPopup';
 import { Operation } from '../types';
 
-const CHALLENGE_TIME = 120; // 10 minutes in seconds
+const CHALLENGE_TIME = 120; // 2 minutes in seconds
 
 const ChallengeMode = () => {
   const navigate = useNavigate();
