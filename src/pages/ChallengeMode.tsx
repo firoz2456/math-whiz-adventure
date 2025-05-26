@@ -121,7 +121,7 @@ const ChallengeMode = () => {
         <h1 className="text-2xl font-bold text-yellow-600">Challenge Mode</h1>
         <div className="bg-yellow-500 text-white px-3 py-1 rounded-full flex items-center">
           <Timer size={18} className="mr-1" />
-          <span>{formatTime(timeLeft)}</span>
+          <span>{formatTime(isActive ? timeLeft : selectedDuration)}</span>
         </div>
       </header>
       
